@@ -14,19 +14,15 @@ public class TransactionValidation {
 	private static final Logger logger = LoggerFactory.getLogger(TransactionValidation.class);
 
 	public List<TransactionDetail> validate(List<TransactionDetail> transactionDetails) {
-		// List the end balance not equal
-		// List<TransactionDetail> uniqueList =
-		// transactionDetails.getTransactionDetails().parallelStream().filter(t
-		// -> (t.getEndBalance() != (t.getStartBalance() +
-		// t.getMutation()))).collect(Collectors.toList());
-		Set<TransactionDetail> uniqueTransaction = new HashSet<>();
+
+		Set<Integer> uniqueTransaction = new HashSet<>();
 		List<TransactionDetail> failedTransaction = new ArrayList<>();
 		for (TransactionDetail td : transactionDetails) {
 			// Checks for the duplicate and end balance validation
-			if (!uniqueTransaction.add(td)) {
+			if (!uniqueTransaction.add(td.getReference())) {
 				logger.debug("Duplicate transaction ref: " + td.getReference());
 				failedTransaction.add(td);
-			} else if (td.getEndBalance() != (td.getMutation() + td.getStartBalance())) {
+			} else if (!td.getEndBalance().equals((td.getMutation().add(td.getStartBalance())))) {
 				logger.debug("End balance validation failure ref: " + td.getReference());
 				failedTransaction.add(td);
 			}

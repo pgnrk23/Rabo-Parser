@@ -1,5 +1,7 @@
 package com.rb.parser.model;
 
+import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -13,11 +15,11 @@ public class TransactionDetail {
 	@CsvBindByName(column = "Description")
 	private String description;
 	@CsvBindByName(column = "Mutation")
-	private Double mutation;
+	private BigDecimal mutation;
 	@CsvBindByName(column = "End Balance")
-	private Double endBalance;
+	private BigDecimal endBalance;
 	@CsvBindByName(column = "Start Balance")
-	private Double startBalance;
+	private BigDecimal startBalance;
 	@CsvBindByName(column = "Reference")
 	private Integer reference;
 
@@ -39,30 +41,39 @@ public class TransactionDetail {
 		this.description = description;
 	}
 
-	public Double getMutation() {
-		return mutation;
+	public BigDecimal getMutation() {
+		if(mutation != null) {			
+			return mutation.setScale(2);
+		}
+		return BigDecimal.ZERO;
 	}
 
 	@XmlElement
-	public void setMutation(Double mutation) {
+	public void setMutation(BigDecimal mutation) {
 		this.mutation = mutation;
 	}
 
-	public Double getEndBalance() {
-		return endBalance;
+	public BigDecimal getEndBalance() {
+		if(endBalance != null) {			
+			return endBalance.setScale(2);
+		}
+		return BigDecimal.ZERO;
 	}
 
 	@XmlElement
-	public void setEndBalance(Double endBalance) {
+	public void setEndBalance(BigDecimal endBalance) {
 		this.endBalance = endBalance;
 	}
 
-	public Double getStartBalance() {
-		return startBalance;
+	public BigDecimal getStartBalance() {
+		if(startBalance != null) {			
+			return startBalance.setScale(2);
+		}		
+		return BigDecimal.ZERO;
 	}
 
 	@XmlElement
-	public void setStartBalance(Double startBalance) {
+	public void setStartBalance(BigDecimal startBalance) {
 		this.startBalance = startBalance;
 	}
 

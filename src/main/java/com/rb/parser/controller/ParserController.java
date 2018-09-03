@@ -52,7 +52,9 @@ public class ParserController {
 					parser = new XMLParser();
 					break;
 				default:
-					throw new Exception("Invalid file");
+					status = new Status(HttpStatus.BAD_REQUEST.value(), "File is invalid");
+					response = new Response(null, status);
+					return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
 				}
 				List<TransactionDetail> failedDetails = new TransactionValidation().validate(parser.parse(file));
 				status = new Status(HttpStatus.OK.value(), HttpStatus.OK.name());
